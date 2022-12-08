@@ -1,29 +1,29 @@
-import React, {useState, useEffect} from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import arrayProductos from "./json/productos.json";
-import ItemList from "./ItemList";
+import ItemDetail from "./itemDetail";
 
-const ItemListContainer = ({greeting}) =>{
-    const [items, setItems] = useState([]);
+const ItemDetailContainer = () =>{
+    const [item, setItem] = useState([]);
     const {id} = useParams();
 
     useEffect(() => {
         const promesa = new Promise((resolve, reject) => {
             setTimeout(() => {
-                resolve(id ? arrayProductos.filter(item => item.material === id) : arrayProductos);
+                resolve(arrayProductos.find(item => item.id === parseInt(id)));
             }, 2000);
         });
         promesa.then((data) => {
-            setItems(data);
+            setItem(data);
         })
     }, [id]);
-    
+
     return(
         <div className="container my-5">
-            <ItemList items={items} />
+            <ItemDetail item={item}/>
         </div>
         
     )
 }
 
-export default ItemListContainer;
+export default ItemDetailContainer;
